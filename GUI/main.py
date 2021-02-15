@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QApplication, QDialog, QTabWidget, QWidget, QVBoxLayout, QGridLayout, QDialogButtonBox, QLabel, QLineEdit, QComboBox
+from PyQt5.QtWidgets import QApplication, QDialog, QTabWidget, QWidget, QVBoxLayout, QGridLayout, QDialogButtonBox, QLabel, QLineEdit, QComboBox, QPushButton
 import sys
 
 
@@ -27,8 +27,9 @@ class MainWindow(QDialog):
 class FirstTab(QWidget):
     def __init__(self):
         super().__init__()
-        self.ColumnSelectBoxList = ['Teachers', 'Students', 'Subjects', 'Time']
-        self.first_tab_layout = QGridLayout()
+        self.TableSelectBoxList = ['Teachers', 'Students', 'Subjects', 'Time']
+        self.ColumnSelectBoxList = ['id', 'FIO', 'Time']
+        self.FirstTabLayout = QGridLayout()
 
         self.AddText = QLabel("Add new line")
         self.AddEdit = QLineEdit()
@@ -49,27 +50,38 @@ class FirstTab(QWidget):
         self.RemoveColumnSelectBox = QComboBox()
         self.RemoveColumnSelectBox.addItems(self.ColumnSelectBoxList)
 
-        self.InitializeUI()
+        self.SubmitButton = QPushButton("Submit")
+        self.DBLoadButton = QPushButton("Load DB")
+        self.DBSelectTableText = QLabel("Select Table")
+        self.DBSelectTable = QComboBox()
+        self.DBSelectTable.addItems(self.TableSelectBoxList)
 
-    def InitializeUI(self):
-        self.first_tab_layout.addWidget(self.AddText, 1, 0)
-        self.first_tab_layout.addWidget(self.AddEdit, 1, 1)
-        self.first_tab_layout.addWidget(self.AddColumnText, 1, 2)
-        self.first_tab_layout.addWidget(self.AddColumnSelectBox, 1, 3)
+        self.InitializeLayouts()
 
-        self.first_tab_layout.addWidget(self.RemoveText, 2, 0)
-        self.first_tab_layout.addWidget(self.RemoveEdit, 2, 1)
-        self.first_tab_layout.addWidget(self.RemoveLineText, 2, 2)
-        self.first_tab_layout.addWidget(self.RemoveLineSelectBox, 2, 3)
-        self.first_tab_layout.addWidget(self.RemoveLineSelectBox, 2, 4)
+    def InitializeLayouts(self):
+        self.FirstTabLayout.addWidget(self.AddText, 1, 0)
+        self.FirstTabLayout.addWidget(self.AddEdit, 1, 1)
+        self.FirstTabLayout.addWidget(self.AddColumnText, 1, 2)
+        self.FirstTabLayout.addWidget(self.AddColumnSelectBox, 1, 3)
 
-        self.first_tab_layout.addWidget(self.NewColumn, 3, 0)
-        self.first_tab_layout.addWidget(self.NewColumnEdit, 3, 1)
+        self.FirstTabLayout.addWidget(self.RemoveText, 2, 0)
+        self.FirstTabLayout.addWidget(self.RemoveEdit, 2, 1)
+        self.FirstTabLayout.addWidget(self.RemoveLineText, 2, 2)
+        self.FirstTabLayout.addWidget(self.RemoveLineSelectBox, 2, 3)
+        self.FirstTabLayout.addWidget(self.RemoveLineSelectBox, 2, 4)
 
-        self.first_tab_layout.addWidget(self.RemoveColumnText, 4, 0)
-        self.first_tab_layout.addWidget(self.RemoveColumnSelectBox, 4, 1)
+        self.FirstTabLayout.addWidget(self.NewColumn, 3, 0)
+        self.FirstTabLayout.addWidget(self.NewColumnEdit, 3, 1)
 
-        self.setLayout(self.first_tab_layout)
+        self.FirstTabLayout.addWidget(self.RemoveColumnText, 4, 0)
+        self.FirstTabLayout.addWidget(self.RemoveColumnSelectBox, 4, 1)
+
+        self.FirstTabLayout.addWidget(self.SubmitButton, 6, 0)
+        self.FirstTabLayout.addWidget(self.DBLoadButton, 7, 0)
+        self.FirstTabLayout.addWidget(self.DBSelectTableText, 7, 1)
+        self.FirstTabLayout.addWidget(self.DBSelectTable, 7, 2)
+
+        self.setLayout(self.FirstTabLayout)
 
 
 class SecondTab(QWidget):
