@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QApplication, QDialog, QTabWidget, QWidget, QVBoxLayout, QDialogButtonBox, QLabel, QLineEdit, QComboBox
+from PyQt5.QtWidgets import QApplication, QDialog, QTabWidget, QWidget, QVBoxLayout, QGridLayout, QDialogButtonBox, QLabel, QLineEdit, QComboBox
 import sys
 
 
@@ -12,7 +12,7 @@ class MainWindow(QDialog):
 
     def InitializeUI(self):
         self.setWindowTitle('DataBase Edit Tool')
-        self.setGeometry(450, 450, 850, 600)
+        self.setGeometry(250, 320, 350, 250)
 
         self.tab_instance.addTab(FirstTab(), "Manage DB")
         self.tab_instance.addTab(SecondTab(), "Edit")
@@ -28,7 +28,7 @@ class FirstTab(QWidget):
     def __init__(self):
         super().__init__()
         self.ColumnSelectBoxList = ['Teachers', 'Students', 'Subjects', 'Time']
-        self.first_tab_layout = QVBoxLayout()
+        self.first_tab_layout = QGridLayout()
 
         self.AddText = QLabel("Add new line")
         self.AddEdit = QLineEdit()
@@ -48,24 +48,27 @@ class FirstTab(QWidget):
         self.RemoveColumnText = QLabel("Remove Column")
         self.RemoveColumnSelectBox = QComboBox()
         self.RemoveColumnSelectBox.addItems(self.ColumnSelectBoxList)
+
         self.InitializeUI()
 
     def InitializeUI(self):
-        self.first_tab_layout.addWidget(self.AddText)
-        self.first_tab_layout.addWidget(self.AddEdit)
-        self.first_tab_layout.addWidget(self.AddColumnText)
-        self.first_tab_layout.addWidget(self.AddColumnSelectBox)
+        self.first_tab_layout.addWidget(self.AddText, 1, 0)
+        self.first_tab_layout.addWidget(self.AddEdit, 1, 1)
+        self.first_tab_layout.addWidget(self.AddColumnText, 1, 2)
+        self.first_tab_layout.addWidget(self.AddColumnSelectBox, 1, 3)
 
-        self.first_tab_layout.addWidget(self.RemoveText)
-        self.first_tab_layout.addWidget(self.RemoveLineText)
-        self.first_tab_layout.addWidget(self.RemoveLineSelectBox)
-        self.first_tab_layout.addWidget(self.RemoveLineSelectBox)
+        self.first_tab_layout.addWidget(self.RemoveText, 2, 0)
+        self.first_tab_layout.addWidget(self.RemoveEdit, 2, 1)
+        self.first_tab_layout.addWidget(self.RemoveLineText, 2, 2)
+        self.first_tab_layout.addWidget(self.RemoveLineSelectBox, 2, 3)
+        self.first_tab_layout.addWidget(self.RemoveLineSelectBox, 2, 4)
 
-        self.first_tab_layout.addWidget(self.NewColumn)
-        self.first_tab_layout.addWidget(self.NewColumnEdit)
+        self.first_tab_layout.addWidget(self.NewColumn, 3, 0)
+        self.first_tab_layout.addWidget(self.NewColumnEdit, 3, 1)
 
-        self.first_tab_layout.addWidget(self.RemoveColumnText)
-        self.first_tab_layout.addWidget(self.RemoveColumnSelectBox)
+        self.first_tab_layout.addWidget(self.RemoveColumnText, 4, 0)
+        self.first_tab_layout.addWidget(self.RemoveColumnSelectBox, 4, 1)
+
         self.setLayout(self.first_tab_layout)
 
 
