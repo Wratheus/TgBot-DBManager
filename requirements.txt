@@ -1,1 +1,2 @@
- Pyside2-5.15.2
+PyQT5 5.15.2
+PtQT5-tools 5.15.2
