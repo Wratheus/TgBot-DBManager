@@ -1,14 +1,36 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QApplication, QMainWindow
-from PyQt5.QtCore import QFile
+from PyQt5 import QtCore, QtWidgets
+from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog
+from PyQt5.QtSql import QSqlDatabase, QSqlQuery, QSqlTableModel
 import sys
-
+import os
 
 class MainWindow(QMainWindow):
 
     def __init__(self):
         super(MainWindow, self).__init__()
         self.setupUi(self)
+
+    def openDataBaseFile(self):
+        self.filePath = QFileDialog.getOpenFileName(self, "open file")
+        self.loadData()
+        self.db = QSqlDatabase.addDatabase("QSQLITE")
+        self.db.setDatabaseName(self.filePath)
+        self.db.open()
+
+    def pickDataBaseTable(self):
+        self.query = "SELECT * FROM " + self.tablename
+        self.result = self.connection.execute(self.query)
+
+
+    def openConsole(self):
+        self.terminal = os.system("start cmd /k {ls}")
+
+    def saveFile(self):
+        self.name = QFileDialog.getSaveFileName(self, 'Save File')
+        self.file = open(self.name, 'w')
+        self.text = self.textEdit.toPlainText()
+        self.file.write(self.text)
+        self.file.close()
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -31,6 +53,7 @@ class MainWindow(QMainWindow):
         self.TabWidget = QtWidgets.QTabWidget(self.gridLayoutWidget)
         self.TabWidget.setObjectName("TabWidget")
 
+# Tab Lesson part
         self.Lesson = QtWidgets.QWidget()
         self.Lesson.setObjectName("Lesson")
 
@@ -99,10 +122,20 @@ class MainWindow(QMainWindow):
         self.CurrentAttendanceTable_Label.setGeometry(QtCore.QRect(10, 100, 131, 20))
         self.CurrentAttendanceTable_Label.setObjectName("CurrentAttendanceTable_Label")
 
+        self.addNewRow_button_Lesson = QtWidgets.QPushButton(self.Lesson)
+        self.addNewRow_button_Lesson.setGeometry(QtCore.QRect(10, 482, 111, 31))
+        self.addNewRow_button_Lesson.setObjectName("addNewRow_button_Lesson")
+
+        self.deleteRow_button_Lesson = QtWidgets.QPushButton(self.Lesson)
+        self.deleteRow_button_Lesson.setGeometry(QtCore.QRect(130, 482, 111, 31))
+        self.deleteRow_button_Lesson.setObjectName("deleteRow_button_Lesson")
+
         self.TabWidget.addTab(self.Lesson, "")
         self.DB_viewer = QtWidgets.QWidget()
         self.DB_viewer.setObjectName("DB_viewer")
 
+
+# Tab DB_viewer part
         self.DBManagement_TableWidget = QtWidgets.QTableWidget(self.DB_viewer)
         self.DBManagement_TableWidget.setGeometry(QtCore.QRect(10, 61, 761, 411))
         self.DBManagement_TableWidget.setRowCount(20)
@@ -125,6 +158,14 @@ class MainWindow(QMainWindow):
         self.SearchInThisTableLabel.setGeometry(QtCore.QRect(180, 10, 101, 21))
         self.SearchInThisTableLabel.setObjectName("SearchInThisTableLabel")
 
+        self.addNewRow_button = QtWidgets.QPushButton(self.DB_viewer)
+        self.addNewRow_button.setGeometry(QtCore.QRect(10, 482, 111, 31))
+        self.addNewRow_button.setObjectName("addNewRow_button")
+
+        self.deleteRow_button = QtWidgets.QPushButton(self.DB_viewer)
+        self.deleteRow_button.setGeometry(QtCore.QRect(130, 482, 111, 31))
+        self.deleteRow_button.setObjectName("deleteRow_button")
+
         self.CancelChanges_button = QtWidgets.QPushButton(self.DB_viewer)
         self.CancelChanges_button.setGeometry(QtCore.QRect(540, 482, 111, 31))
         self.CancelChanges_button.setObjectName("CancelChanges_button")
@@ -142,18 +183,36 @@ class MainWindow(QMainWindow):
 
         self.File = QtWidgets.QMenu(self.menubar)
         self.File.setObjectName("File")
+
         MainWindow.setMenuBar(self.menubar)
 
         self.actionOpen_database_file = QtWidgets.QAction(MainWindow)
         self.actionOpen_database_file.setObjectName("actionOpen_database_file")
+        self.actionOpen_database_file.setShortcut("Ctrl+O")
+        self.actionOpen_database_file.triggered.connect(self.openDataBaseFile)
+
         self.actionCreate_new_database_file = QtWidgets.QAction(MainWindow)
         self.actionCreate_new_database_file.setObjectName("actionCreate_new_database_file")
+        self.actionCreate_new_database_file.setShortcut("Ctrl+C")
+
+        self.actionOpen_console = QtWidgets.QAction(MainWindow)
+        self.actionOpen_console.setObjectName("actionOpen_console")
+        self.actionOpen_console.triggered.connect(self.openConsole)
+        self.actionOpen_console.setShortcut("Ctrl+T")
+
+        self.actionSave_file = QtWidgets.QAction(MainWindow)
+        self.actionSave_file.setObjectName("actionSave_file")
+        self.actionSave_file.triggered.connect(self.saveFile)
+        self.actionSave_file.setShortcut("Ctrl+S")
+
         self.File.addAction(self.actionOpen_database_file)
         self.File.addAction(self.actionCreate_new_database_file)
+        self.File.addAction(self.actionSave_file)
+        self.File.addAction(self.actionOpen_console)
         self.menubar.addAction(self.File.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.TabWidget.setCurrentIndex(1)
+        self.TabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -165,17 +224,22 @@ class MainWindow(QMainWindow):
         self.SelectStudent_Label.setText(_translate("MainWindow", "Select student"))
         self.SelectSubject_Label.setText(_translate("MainWindow", "Select subject"))
         self.SetAttendance_Label.setText(_translate("MainWindow", "Set attendance"))
+        self.addNewRow_button_Lesson.setText(_translate("MainWindow", "[+] Add new row"))
+        self.deleteRow_button_Lesson.setText(_translate("MainWindow", "[-] Delete row"))
         self.SetMark_Label.setText(_translate("MainWindow", "Select mark"))
         self.CurrentAttendanceTable_Label.setText(_translate("MainWindow", "Current attendance table"))
         self.TabWidget.setTabText(self.TabWidget.indexOf(self.Lesson), _translate("MainWindow", "Lesson management"))
         self.SelectTable_Label.setText(_translate("MainWindow", "Select table"))
         self.SearchInThisTableLabel.setText(_translate("MainWindow", "Search in this table"))
         self.CancelChanges_button.setText(_translate("MainWindow", "Cancel changes"))
+        self.addNewRow_button.setText(_translate("MainWindow", "[+] Add new row"))
+        self.deleteRow_button.setText(_translate("MainWindow", "[-] Delete row"))
         self.Apply_Button.setText(_translate("MainWindow", "Apply"))
         self.File.setTitle(_translate("MainWindow", "File"))
         self.actionOpen_database_file.setText(_translate("MainWindow", "Open database file"))
         self.actionCreate_new_database_file.setText(_translate("MainWindow", "Create new database file"))
-
+        self.actionOpen_console.setText(_translate("MainWindow", "Open Console"))
+        self.actionSave_file.setText(_translate("MainWindow", "Save File"))
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
