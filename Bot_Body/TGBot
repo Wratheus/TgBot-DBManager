@@ -1,6 +1,6 @@
 from telegram.ext import Updater, CommandHandler
 import logging
-updater = Updater(token='1697697123:AAGJJJR4A9nOrTvIlz9A3yVHNQtrbuNPEqo', use_context=True) #Эта строка нужна, чтобы получать обновления от телеграмма, доставлять их по токену
+updater = Updater(token='USE_YOUR_TOKEN', use_context=True) #Эта строка нужна, чтобы получать обновления от телеграмма, доставлять их по токену
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO) #Эта строка нужна, чтобы если что-то пошло не так, мы бы получили мини-отчет
 dispatcher = updater.dispatcher
 
