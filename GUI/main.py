@@ -1,248 +1,435 @@
 from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog
-from PyQt5.QtSql import QSqlDatabase, QSqlQuery, QSqlTableModel
-import sys
-import os
-
-class MainWindow(QMainWindow):
-
-    def __init__(self):
-        super(MainWindow, self).__init__()
-        self.setupUi(self)
-
-    def openDataBaseFile(self):
-        self.filePath = QFileDialog.getOpenFileName(self, "open file")
-        self.loadData()
-        self.db = QSqlDatabase.addDatabase("QSQLITE")
-        self.db.setDatabaseName(self.filePath)
-        self.db.open()
-
-    def pickDataBaseTable(self):
-        self.query = "SELECT * FROM " + self.tablename
-        self.result = self.connection.execute(self.query)
+from PyQt5.QtWidgets import QMessageBox
+import sqlite3
 
 
-    def openConsole(self):
-        self.terminal = os.system("start cmd /k {ls}")
-
-    def saveFile(self):
-        self.name = QFileDialog.getSaveFileName(self, 'Save File')
-        self.file = open(self.name, 'w')
-        self.text = self.textEdit.toPlainText()
-        self.file.write(self.text)
-        self.file.close()
-
+class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
+
         MainWindow.setObjectName("MainWindow")
         MainWindow.setWindowModality(QtCore.Qt.NonModal)
-        MainWindow.resize(796, 567)
+        MainWindow.resize(829, 527)
+        MainWindow.setMinimumSize(829, 527)
+        MainWindow.setMaximumSize(829, 527)
+
+        # fix size
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
+
+        MainWindow.setSizePolicy(sizePolicy)
         MainWindow.setWindowTitle("DB edit Tool")
 
         self.Mainlayout = QtWidgets.QWidget(MainWindow)
         self.Mainlayout.setEnabled(True)
         self.Mainlayout.setAutoFillBackground(False)
+        self.Mainlayout.setStyleSheet("")
         self.Mainlayout.setObjectName("Mainlayout")
 
-        self.gridLayoutWidget = QtWidgets.QWidget(self.Mainlayout)
-        self.gridLayoutWidget.setGeometry(QtCore.QRect(0, 0, 791, 541))
-        self.gridLayoutWidget.setObjectName("gridLayoutWidget")
-        self.GridLayout = QtWidgets.QGridLayout(self.gridLayoutWidget)
-        self.GridLayout.setContentsMargins(0, 0, 0, 0)
-        self.GridLayout.setObjectName("GridLayout")
+        self.TabWidget_3 = QtWidgets.QTabWidget(self.Mainlayout)
+        self.TabWidget_3.setGeometry(QtCore.QRect(0, 0, 821, 501))
+        self.TabWidget_3.setObjectName("TabWidget_3")
 
-        self.TabWidget = QtWidgets.QTabWidget(self.gridLayoutWidget)
-        self.TabWidget.setObjectName("TabWidget")
+        self.Lesson_3 = QtWidgets.QWidget()
+        self.Lesson_3.setObjectName("Lesson_3")
 
-# Tab Lesson part
-        self.Lesson = QtWidgets.QWidget()
-        self.Lesson.setObjectName("Lesson")
+        #first tab section
+        self.deleteButton = QtWidgets.QPushButton(self.Lesson_3)
+        self.deleteButton.setGeometry(QtCore.QRect(610, 420, 191, 31))
+        self.deleteButton.setObjectName("deleteButton")
 
-        self.Enter_Button = QtWidgets.QPushButton(self.Lesson)
-        self.Enter_Button.setGeometry(QtCore.QRect(370, 60, 121, 31))
-        self.Enter_Button.setObjectName("Enter_Button")
+        self.updateButton = QtWidgets.QPushButton(self.Lesson_3)
+        self.updateButton.setGeometry(QtCore.QRect(720, 380, 81, 31))
+        self.updateButton.setObjectName("updateButton")
 
-        self.tableWidget = QtWidgets.QTableWidget(self.Lesson)
-        self.tableWidget.setGeometry(QtCore.QRect(10, 120, 761, 341))
-        self.tableWidget.setRowCount(15)
-        self.tableWidget.setColumnCount(10)
-        self.tableWidget.setObjectName("tableWidget")
+        self.addButton = QtWidgets.QPushButton(self.Lesson_3)
+        self.addButton.setGeometry(QtCore.QRect(610, 380, 91, 31))
+        self.addButton.setObjectName("addButton")
 
-        self.Confirm_Button = QtWidgets.QPushButton(self.Lesson)
-        self.Confirm_Button.setGeometry(QtCore.QRect(590, 470, 181, 41))
-        self.Confirm_Button.setObjectName("Confirm_Button")
+        self.groupBox = QtWidgets.QGroupBox(self.Lesson_3)
+        self.groupBox.setGeometry(QtCore.QRect(10, 10, 191, 91))
+        self.groupBox.setObjectName("groupBox")
 
-        self.Reset_Button = QtWidgets.QPushButton(self.Lesson)
-        self.Reset_Button.setGeometry(QtCore.QRect(460, 470, 121, 41))
-        self.Reset_Button.setObjectName("Reset_Button")
+        self.groups_id = QtWidgets.QLineEdit(self.groupBox)
+        self.groups_id.setGeometry(QtCore.QRect(70, 28, 113, 23))
+        self.groups_id.setObjectName("groups_id")
 
-        self.Select_group_Label = QtWidgets.QLabel(self.Lesson)
-        self.Select_group_Label.setGeometry(QtCore.QRect(10, 50, 91, 21))
-        self.Select_group_Label.setObjectName("Select_group_Label")
+        self.groups_name = QtWidgets.QLineEdit(self.groupBox)
+        self.groups_name.setGeometry(QtCore.QRect(70, 58, 113, 23))
+        self.groups_name.setObjectName("groups_name")
 
-        self.SelectSubject_ComboBox = QtWidgets.QComboBox(self.Lesson)
-        self.SelectSubject_ComboBox.setGeometry(QtCore.QRect(10, 30, 161, 20))
-        self.SelectSubject_ComboBox.setObjectName("SelectSubject_ComboBox")
+        self.label = QtWidgets.QLabel(self.groupBox)
+        self.label.setGeometry(QtCore.QRect(10, 30, 57, 21))
+        self.label.setObjectName("label")
 
-        self.SelectGroup_ComboBox = QtWidgets.QComboBox(self.Lesson)
-        self.SelectGroup_ComboBox.setGeometry(QtCore.QRect(10, 70, 161, 20))
-        self.SelectGroup_ComboBox.setLayoutDirection(QtCore.Qt.LeftToRight)
-        self.SelectGroup_ComboBox.setEditable(False)
-        self.SelectGroup_ComboBox.setCurrentText("")
-        self.SelectGroup_ComboBox.setObjectName("SelectGroup_ComboBox")
+        self.label_2 = QtWidgets.QLabel(self.groupBox)
+        self.label_2.setGeometry(QtCore.QRect(10, 60, 57, 15))
+        self.label_2.setObjectName("label_2")
 
-        self.SelectStudent_Label = QtWidgets.QLabel(self.Lesson)
-        self.SelectStudent_Label.setGeometry(QtCore.QRect(190, 10, 91, 21))
-        self.SelectStudent_Label.setObjectName("SelectStudent_Label")
+        self.groupBox_2 = QtWidgets.QGroupBox(self.Lesson_3)
+        self.groupBox_2.setGeometry(QtCore.QRect(210, 10, 191, 91))
+        self.groupBox_2.setObjectName("groupBox_2")
 
-        self.SelectStudent_ComboBox = QtWidgets.QComboBox(self.Lesson)
-        self.SelectStudent_ComboBox.setGeometry(QtCore.QRect(190, 30, 161, 20))
-        self.SelectStudent_ComboBox.setObjectName("SelectStudent_ComboBox")
+        self.students_id = QtWidgets.QLineEdit(self.groupBox_2)
+        self.students_id.setGeometry(QtCore.QRect(70, 28, 113, 23))
+        self.students_id.setObjectName("students_id")
 
-        self.SelectSubject_Label = QtWidgets.QLabel(self.Lesson)
-        self.SelectSubject_Label.setGeometry(QtCore.QRect(10, 10, 91, 21))
-        self.SelectSubject_Label.setObjectName("SelectSubject_Label")
+        self.students_ = QtWidgets.QLineEdit(self.groupBox_2)
+        self.students_.setGeometry(QtCore.QRect(70, 58, 113, 23))
+        self.students_.setObjectName("students_")
 
-        self.SetAttendance_ComboBox = QtWidgets.QComboBox(self.Lesson)
-        self.SetAttendance_ComboBox.setGeometry(QtCore.QRect(190, 70, 161, 20))
-        self.SetAttendance_ComboBox.setObjectName("SetAttendance_ComboBox")
+        self.label_3 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_3.setGeometry(QtCore.QRect(10, 30, 57, 21))
+        self.label_3.setObjectName("label_3")
 
-        self.SetMark_ComboBox = QtWidgets.QComboBox(self.Lesson)
-        self.SetMark_ComboBox.setGeometry(QtCore.QRect(370, 30, 121, 20))
-        self.SetMark_ComboBox.setObjectName("SetMark_ComboBox")
+        self.label_4 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_4.setGeometry(QtCore.QRect(10, 60, 57, 15))
+        self.label_4.setObjectName("label_4")
 
-        self.SetAttendance_Label = QtWidgets.QLabel(self.Lesson)
-        self.SetAttendance_Label.setGeometry(QtCore.QRect(190, 50, 91, 21))
-        self.SetAttendance_Label.setObjectName("SetAttendance_Label")
+        self.groupBox_3 = QtWidgets.QGroupBox(self.Lesson_3)
+        self.groupBox_3.setGeometry(QtCore.QRect(410, 10, 191, 91))
+        self.groupBox_3.setObjectName("groupBox_3")
 
-        self.SetMark_Label = QtWidgets.QLabel(self.Lesson)
-        self.SetMark_Label.setGeometry(QtCore.QRect(370, 10, 61, 21))
-        self.SetMark_Label.setObjectName("SetMark_Label")
+        self.subject_id = QtWidgets.QLineEdit(self.groupBox_3)
+        self.subject_id.setGeometry(QtCore.QRect(70, 28, 113, 23))
+        self.subject_id.setObjectName("subject_id")
 
-        self.CurrentAttendanceTable_Label = QtWidgets.QLabel(self.Lesson)
-        self.CurrentAttendanceTable_Label.setGeometry(QtCore.QRect(10, 100, 131, 20))
-        self.CurrentAttendanceTable_Label.setObjectName("CurrentAttendanceTable_Label")
+        self.subject_subject = QtWidgets.QLineEdit(self.groupBox_3)
+        self.subject_subject.setGeometry(QtCore.QRect(70, 58, 113, 23))
+        self.subject_subject.setObjectName("subject_subject")
 
-        self.addNewRow_button_Lesson = QtWidgets.QPushButton(self.Lesson)
-        self.addNewRow_button_Lesson.setGeometry(QtCore.QRect(10, 482, 111, 31))
-        self.addNewRow_button_Lesson.setObjectName("addNewRow_button_Lesson")
+        self.label_5 = QtWidgets.QLabel(self.groupBox_3)
+        self.label_5.setGeometry(QtCore.QRect(10, 30, 57, 21))
+        self.label_5.setObjectName("label_5")
 
-        self.deleteRow_button_Lesson = QtWidgets.QPushButton(self.Lesson)
-        self.deleteRow_button_Lesson.setGeometry(QtCore.QRect(130, 482, 111, 31))
-        self.deleteRow_button_Lesson.setObjectName("deleteRow_button_Lesson")
+        self.label_6 = QtWidgets.QLabel(self.groupBox_3)
+        self.label_6.setGeometry(QtCore.QRect(10, 60, 57, 15))
+        self.label_6.setObjectName("label_6")
 
-        self.TabWidget.addTab(self.Lesson, "")
-        self.DB_viewer = QtWidgets.QWidget()
-        self.DB_viewer.setObjectName("DB_viewer")
+        self.groupBox_4 = QtWidgets.QGroupBox(self.Lesson_3)
+        self.groupBox_4.setGeometry(QtCore.QRect(610, 10, 191, 121))
+        self.groupBox_4.setObjectName("groupBox_4")
 
+        self.teacher_id = QtWidgets.QLineEdit(self.groupBox_4)
+        self.teacher_id.setGeometry(QtCore.QRect(70, 28, 113, 23))
+        self.teacher_id.setObjectName("teacher_id")
 
-# Tab DB_viewer part
-        self.DBManagement_TableWidget = QtWidgets.QTableWidget(self.DB_viewer)
-        self.DBManagement_TableWidget.setGeometry(QtCore.QRect(10, 61, 761, 411))
-        self.DBManagement_TableWidget.setRowCount(20)
-        self.DBManagement_TableWidget.setColumnCount(15)
-        self.DBManagement_TableWidget.setObjectName("DBManagement_TableWidget")
+        self.teacher_name = QtWidgets.QLineEdit(self.groupBox_4)
+        self.teacher_name.setGeometry(QtCore.QRect(70, 58, 113, 23))
+        self.teacher_name.setObjectName("teacher_name")
 
-        self.SelectTable_ComboBox = QtWidgets.QComboBox(self.DB_viewer)
-        self.SelectTable_ComboBox.setGeometry(QtCore.QRect(10, 30, 161, 20))
-        self.SelectTable_ComboBox.setObjectName("SelectTable_ComboBox")
+        self.label_7 = QtWidgets.QLabel(self.groupBox_4)
+        self.label_7.setGeometry(QtCore.QRect(10, 30, 57, 21))
+        self.label_7.setObjectName("label_7")
 
-        self.SelectTable_Label = QtWidgets.QLabel(self.DB_viewer)
-        self.SelectTable_Label.setGeometry(QtCore.QRect(10, 10, 61, 21))
-        self.SelectTable_Label.setObjectName("SelectTable_Label")
+        self.label_8 = QtWidgets.QLabel(self.groupBox_4)
+        self.label_8.setGeometry(QtCore.QRect(10, 60, 57, 15))
+        self.label_8.setObjectName("label_8")
 
-        self.SearchInThisTable_Line = QtWidgets.QLineEdit(self.DB_viewer)
-        self.SearchInThisTable_Line.setGeometry(QtCore.QRect(180, 30, 113, 20))
-        self.SearchInThisTable_Line.setObjectName("SearchInThisTable_Line")
+        self.teacher_subject = QtWidgets.QLineEdit(self.groupBox_4)
+        self.teacher_subject.setGeometry(QtCore.QRect(70, 88, 113, 23))
+        self.teacher_subject.setObjectName("teacher_subject")
 
-        self.SearchInThisTableLabel = QtWidgets.QLabel(self.DB_viewer)
-        self.SearchInThisTableLabel.setGeometry(QtCore.QRect(180, 10, 101, 21))
-        self.SearchInThisTableLabel.setObjectName("SearchInThisTableLabel")
+        self.label_11 = QtWidgets.QLabel(self.groupBox_4)
+        self.label_11.setGeometry(QtCore.QRect(10, 90, 57, 15))
+        self.label_11.setObjectName("label_11")
 
-        self.addNewRow_button = QtWidgets.QPushButton(self.DB_viewer)
-        self.addNewRow_button.setGeometry(QtCore.QRect(10, 482, 111, 31))
-        self.addNewRow_button.setObjectName("addNewRow_button")
+        self.attendance_and_grades = QtWidgets.QGroupBox(self.Lesson_3)
+        self.attendance_and_grades.setGeometry(QtCore.QRect(610, 140, 191, 191))
+        self.attendance_and_grades.setObjectName("attendance_and_grades")
 
-        self.deleteRow_button = QtWidgets.QPushButton(self.DB_viewer)
-        self.deleteRow_button.setGeometry(QtCore.QRect(130, 482, 111, 31))
-        self.deleteRow_button.setObjectName("deleteRow_button")
+        self.attendance = QtWidgets.QLineEdit(self.attendance_and_grades)
+        self.attendance.setGeometry(QtCore.QRect(70, 20, 113, 23))
+        self.attendance.setObjectName("attendance")
 
-        self.CancelChanges_button = QtWidgets.QPushButton(self.DB_viewer)
-        self.CancelChanges_button.setGeometry(QtCore.QRect(540, 482, 111, 31))
-        self.CancelChanges_button.setObjectName("CancelChanges_button")
+        self.label_10 = QtWidgets.QLabel(self.attendance_and_grades)
+        self.label_10.setGeometry(QtCore.QRect(10, 22, 57, 15))
+        self.label_10.setObjectName("label_10")
 
-        self.Apply_Button = QtWidgets.QPushButton(self.DB_viewer)
-        self.Apply_Button.setGeometry(QtCore.QRect(660, 482, 111, 31))
-        self.Apply_Button.setObjectName("Apply_Button")
+        self.grades = QtWidgets.QLineEdit(self.attendance_and_grades)
+        self.grades.setGeometry(QtCore.QRect(70, 50, 113, 23))
+        self.grades.setObjectName("grades")
 
-        self.TabWidget.addTab(self.DB_viewer, "DB management")
-        self.GridLayout.addWidget(self.TabWidget, 0, 0, 1, 1)
+        self.label_12 = QtWidgets.QLabel(self.attendance_and_grades)
+        self.label_12.setGeometry(QtCore.QRect(10, 50, 57, 15))
+        self.label_12.setObjectName("label_12")
+
+        self.label_13 = QtWidgets.QLabel(self.attendance_and_grades)
+        self.label_13.setGeometry(QtCore.QRect(10, 122, 57, 15))
+        self.label_13.setObjectName("label_13")
+
+        self.schedule_time = QtWidgets.QLineEdit(self.attendance_and_grades)
+        self.schedule_time.setGeometry(QtCore.QRect(70, 120, 113, 23))
+        self.schedule_time.setObjectName("schedule_time")
+
+        self.label_14 = QtWidgets.QLabel(self.attendance_and_grades)
+        self.label_14.setGeometry(QtCore.QRect(10, 152, 57, 15))
+        self.label_14.setObjectName("label_14")
+
+        self.schedule_date = QtWidgets.QDateEdit(self.attendance_and_grades)
+        self.schedule_date.setGeometry(QtCore.QRect(70, 150, 111, 24))
+        self.schedule_date.setObjectName("schedule_date")
+
+        self.list = QtWidgets.QTableWidget(self.Lesson_3)
+        self.list.setGeometry(QtCore.QRect(10, 140, 591, 311))
+        self.list.setObjectName("list")
+
+        self.search = QtWidgets.QLineEdit(self.Lesson_3)
+        self.search.setGeometry(QtCore.QRect(80, 110, 351, 23))
+        self.search.setObjectName("search")
+
+        self.searchButton = QtWidgets.QPushButton(self.Lesson_3)
+        self.searchButton.setGeometry(QtCore.QRect(450, 110, 151, 23))
+        self.searchButton.setObjectName("searchButton")
+
+        self.tablesSelect = QtWidgets.QComboBox(self.Lesson_3)
+        self.tablesSelect.setGeometry(QtCore.QRect(610, 350, 191, 23))
+        self.tablesSelect.setObjectName("tablesSelect")
+        self.tablesSelect.addItem("")
+        self.tablesSelect.addItem("")
+        self.tablesSelect.addItem("")
+        self.tablesSelect.addItem("")
+        self.tablesSelect.addItem("")
+
+        self.label_15 = QtWidgets.QLabel(self.Lesson_3)
+        self.label_15.setGeometry(QtCore.QRect(10, 110, 57, 21))
+        self.label_15.setObjectName("label_15")
+
+        #Tab section #2
+        self.TabWidget_3.addTab(self.Lesson_3, "")
+        self.DB_viewer_3 = QtWidgets.QWidget()
+        self.DB_viewer_3.setObjectName("DB_viewer_3")
+        self.DBManagement_TableWidget_3 = QtWidgets.QTableWidget(self.DB_viewer_3)
+        self.DBManagement_TableWidget_3.setGeometry(QtCore.QRect(10, 61, 761, 401))
+        self.DBManagement_TableWidget_3.setRowCount(20)
+        self.DBManagement_TableWidget_3.setColumnCount(15)
+        self.DBManagement_TableWidget_3.setObjectName("DBManagement_TableWidget_3")
+
+        self.SelectTable_ComboBox_3 = QtWidgets.QComboBox(self.DB_viewer_3)
+        self.SelectTable_ComboBox_3.setGeometry(QtCore.QRect(10, 30, 161, 20))
+        self.SelectTable_ComboBox_3.setObjectName("SelectTable_ComboBox_3")
+
+        self.SelectTable_Label_3 = QtWidgets.QLabel(self.DB_viewer_3)
+        self.SelectTable_Label_3.setGeometry(QtCore.QRect(10, 10, 61, 21))
+        self.SelectTable_Label_3.setObjectName("SelectTable_Label_3")
+
+        self.SearchInThisTable_Line_3 = QtWidgets.QLineEdit(self.DB_viewer_3)
+        self.SearchInThisTable_Line_3.setGeometry(QtCore.QRect(180, 30, 113, 20))
+        self.SearchInThisTable_Line_3.setObjectName("SearchInThisTable_Line_3")
+        self.SearchInThisTableLabel_3 = QtWidgets.QLabel(self.DB_viewer_3)
+        self.SearchInThisTableLabel_3.setGeometry(QtCore.QRect(180, 10, 101, 21))
+        self.SearchInThisTableLabel_3.setObjectName("SearchInThisTableLabel_3")
+
+        self.CancelChanges_button_3 = QtWidgets.QPushButton(self.DB_viewer_3)
+        self.CancelChanges_button_3.setGeometry(QtCore.QRect(540, 482, 111, 31))
+        self.CancelChanges_button_3.setObjectName("CancelChanges_button_3")
+
+        self.Apply_Button_3 = QtWidgets.QPushButton(self.DB_viewer_3)
+        self.Apply_Button_3.setGeometry(QtCore.QRect(660, 482, 111, 31))
+        self.Apply_Button_3.setObjectName("Apply_Button_3")
+        self.TabWidget_3.addTab(self.DB_viewer_3, "DB management")
+
         MainWindow.setCentralWidget(self.Mainlayout)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 796, 21))
-        self.menubar.setObjectName("menubar")
 
+        # Menu FILE strip
+        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 829, 20))
+        self.menubar.setObjectName("menubar")
         self.File = QtWidgets.QMenu(self.menubar)
         self.File.setObjectName("File")
-
         MainWindow.setMenuBar(self.menubar)
-
         self.actionOpen_database_file = QtWidgets.QAction(MainWindow)
         self.actionOpen_database_file.setObjectName("actionOpen_database_file")
-        self.actionOpen_database_file.setShortcut("Ctrl+O")
-        self.actionOpen_database_file.triggered.connect(self.openDataBaseFile)
-
         self.actionCreate_new_database_file = QtWidgets.QAction(MainWindow)
         self.actionCreate_new_database_file.setObjectName("actionCreate_new_database_file")
-        self.actionCreate_new_database_file.setShortcut("Ctrl+C")
-
-        self.actionOpen_console = QtWidgets.QAction(MainWindow)
-        self.actionOpen_console.setObjectName("actionOpen_console")
-        self.actionOpen_console.triggered.connect(self.openConsole)
-        self.actionOpen_console.setShortcut("Ctrl+T")
-
-        self.actionSave_file = QtWidgets.QAction(MainWindow)
-        self.actionSave_file.setObjectName("actionSave_file")
-        self.actionSave_file.triggered.connect(self.saveFile)
-        self.actionSave_file.setShortcut("Ctrl+S")
-
         self.File.addAction(self.actionOpen_database_file)
         self.File.addAction(self.actionCreate_new_database_file)
-        self.File.addAction(self.actionSave_file)
-        self.File.addAction(self.actionOpen_console)
         self.menubar.addAction(self.File.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.TabWidget.setCurrentIndex(0)
+        self.TabWidget_3.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+        # TABLE DB STRUCT
+        self.ids = ["id", "student_id", "subject_id", "teacher_id", "day_id"]
+        self.tables = [["student_id", "student_name"],
+                       ["subject_id", "subject_name"],
+                       ["teacher_id", "teacher_name", "subject_id"],
+                       ["journal_id", "student_id", "group_id", "subject_id", "attendance", "grades"]]
+
+        self.addButton.clicked.connect(self.clicked_add)
+        self.deleteButton.clicked.connect(self.clicked_delete)
+        self.searchButton.clicked.connect(self.clicked_search)
+        self.updateButton.clicked.connect(self.clicked_update)
+        self.list.selectionModel().selectionChanged.connect(self.select_items)
+
+    # Get values
+    def getValues(self):
+        if self.tablesSelect.currentText().lower() == "group":
+            return (self.groups_id.text(), self.groups_name.text())
+        elif self.tablesSelect.currentText().lower() == "student":
+            return (self.students_id.text(), self.students_.text())
+        elif self.tablesSelect.currentText().lower() == "teacher":
+            return (self.teacher_id.text(), self.teacher_name.text(), self.teacher_subject.text())
+        elif self.tablesSelect.currentText().lower() == "subject":
+            return (self.subject_id.text(), self.subject_subject.text())
+
+    def clicked_add(self):
+        vals = self.getValues()
+        query = "INSERT INTO %s values(%s)" % (
+        self.tablesSelect.currentText(), ",".join(['?' for _ in range(len(vals))]).strip(","))
+        try:
+            pass
+            con = sqlite3.connect("test.db")
+            cur = con.cursor()
+            cur.execute(query, vals)
+            con.commit()
+            self.clear()
+            self.alert(f"{self.tablesSelect.currentText()} Changes",
+                       f"Added to {self.tablesSelect.currentText()} successfully", "")
+
+        except sqlite3.Error as error:
+            self.alert(f"{self.tablesSelect.currentText()}", f"Error at {self.tablesSelect.currentText()}", str(error))
+            con.rollback()
+        finally:
+            con.close()
+
+    def clicked_delete(self):
+        query = "delete from %s where %s=?" % (
+        self.tablesSelect.currentText(), self.ids[self.tablesSelect.currentIndex()])
+        print(query)
+        try:
+            con = sqlite3.connect("test.db")
+            cur = con.cursor()
+            cur.execute(query, list(self.getValues()[0]))
+            con.commit()
+            self.clear()
+            self.alert(f"{self.tablesSelect.currentText()} Changes",
+                       f"Deleted from {self.tablesSelect.currentText()} successfully", "")
+
+        except sqlite3.Error as error:
+            self.alert(f"{self.tablesSelect.currentText()}", f"Error at {self.tablesSelect.currentText()}", str(error))
+            con.rollback()
+        finally:
+            con.close()
+
+    def clicked_update(self):
+        query = "update %s set %s where %s=?" % (
+        self.tablesSelect.currentText(), "=? ,".join(self.tables[self.tablesSelect.currentIndex()][1:]) + "=? ",
+        self.ids[self.tablesSelect.currentIndex()])
+        print(query)
+        print((self.getValues()[1:] + self.getValues()[:1]))
+        try:
+            pass
+            con = sqlite3.connect("test.db")
+            cur = con.cursor()
+            cur.execute(query, (self.getValues()[1:] + self.getValues()[:1]))
+            con.commit()
+            self.clear()
+            self.alert(f"{self.tablesSelect.currentText()}", f"Update {self.tablesSelect.currentText()} successfully",
+                       "")
+
+        except sqlite3.Error as error:
+            self.alert(f"{self.tablesSelect.currentText()}", f"Error at {self.tablesSelect.currentText()}", str(error))
+            con.rollback()
+        finally:
+            con.close()
+
+    def clicked_search(self):
+        try:
+            tab = self.tables[self.tablesSelect.currentIndex()]
+            query = "select * from %s where " % (self.tablesSelect.currentText())
+            for column in self.tables[int(self.tablesSelect.currentIndex())]:
+                query += " %s like '%%%s%%' or" % (column, self.search.text())
+            query = query.strip("r").strip("o")
+            con = sqlite3.connect("test.db")
+            cur = con.cursor()
+            self.list.setColumnCount(len(self.tables[self.tablesSelect.currentIndex()]))
+            with_ = self.list.width() // len(tab)
+
+            for x, y in enumerate(tab):
+                self.list.setColumnWidth(x, with_)
+            self.list.setHorizontalHeaderLabels(list(tab))
+
+            self.list.setRowCount(0)
+            for x, i in enumerate(cur.execute(query)):
+                self.list.setRowCount(x + 1)
+                for y, item in enumerate(i):
+                    self.list.setItem(x, y, QtWidgets.QTableWidgetItem(str(i[0])))
+                print(x, i)
+        except sqlite3.Error as error:
+            print(error)
+
+    def select_items(self, selected, deselected):
+        pass
+
+    def clear(self):
+        self.groups_id.setText("")
+        self.groups_name.setText("")
+        self.students_.setText("")
+        self.students_id.setText("")
+        self.subject_id.setText("")
+        self.subject_id.setText("")
+        self.subject_subject.setText("")
+        self.teacher_id.setText("")
+        self.teacher_name.setText("")
+        self.teacher_subject.setText("")
+
+    def alert(self, title="", message="", detais=""):
+        msgBox = QMessageBox()
+        msgBox.setWindowTitle(title)
+        msgBox.setText(message)
+        msgBox.setDetailedText(detais)
+        msgBox.exec_()
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        self.Enter_Button.setText(_translate("MainWindow", "Confirm"))
-        self.Confirm_Button.setText(_translate("MainWindow", "Submit"))
-        self.Reset_Button.setText(_translate("MainWindow", "RESET"))
-        self.Select_group_Label.setText(_translate("MainWindow", "Select group"))
-        self.SelectStudent_Label.setText(_translate("MainWindow", "Select student"))
-        self.SelectSubject_Label.setText(_translate("MainWindow", "Select subject"))
-        self.SetAttendance_Label.setText(_translate("MainWindow", "Set attendance"))
-        self.addNewRow_button_Lesson.setText(_translate("MainWindow", "[+] Add new row"))
-        self.deleteRow_button_Lesson.setText(_translate("MainWindow", "[-] Delete row"))
-        self.SetMark_Label.setText(_translate("MainWindow", "Select mark"))
-        self.CurrentAttendanceTable_Label.setText(_translate("MainWindow", "Current attendance table"))
-        self.TabWidget.setTabText(self.TabWidget.indexOf(self.Lesson), _translate("MainWindow", "Lesson management"))
-        self.SelectTable_Label.setText(_translate("MainWindow", "Select table"))
-        self.SearchInThisTableLabel.setText(_translate("MainWindow", "Search in this table"))
-        self.CancelChanges_button.setText(_translate("MainWindow", "Cancel changes"))
-        self.addNewRow_button.setText(_translate("MainWindow", "[+] Add new row"))
-        self.deleteRow_button.setText(_translate("MainWindow", "[-] Delete row"))
-        self.Apply_Button.setText(_translate("MainWindow", "Apply"))
+        self.deleteButton.setText(_translate("MainWindow", "DELETE"))
+        self.updateButton.setText(_translate("MainWindow", "UPDATE"))
+        self.addButton.setText(_translate("MainWindow", "ADD"))
+        self.groupBox.setTitle(_translate("MainWindow", "Group"))
+        self.label.setText(_translate("MainWindow", "ID"))
+        self.label_2.setText(_translate("MainWindow", "Group"))
+        self.groupBox_2.setTitle(_translate("MainWindow", "Students"))
+        self.label_3.setText(_translate("MainWindow", "ID"))
+        self.label_4.setText(_translate("MainWindow", "Student"))
+        self.groupBox_3.setTitle(_translate("MainWindow", "Subject"))
+        self.label_5.setText(_translate("MainWindow", "ID"))
+        self.label_6.setText(_translate("MainWindow", "Subject"))
+        self.groupBox_4.setTitle(_translate("MainWindow", "Teachers"))
+        self.label_7.setText(_translate("MainWindow", "ID"))
+        self.label_8.setText(_translate("MainWindow", "Name"))
+        self.label_11.setText(_translate("MainWindow", "Subject"))
+        self.attendance_and_grades.setTitle(_translate("MainWindow", "Attendance and grades"))
+        self.label_10.setText(_translate("MainWindow", "attendance"))
+        self.label_12.setText(_translate("MainWindow", "grade"))
+        self.label_13.setText(_translate("MainWindow", "(maybe later) time"))
+        self.label_14.setText(_translate("MainWindow", "(maybe later) Date"))
+        self.searchButton.setText(_translate("MainWindow", "search"))
+        self.tablesSelect.setItemText(0, _translate("MainWindow", "Groups"))
+        self.tablesSelect.setItemText(1, _translate("MainWindow", "Students"))
+        self.tablesSelect.setItemText(2, _translate("MainWindow", "Subjects"))
+        self.tablesSelect.setItemText(3, _translate("MainWindow", "Teachers"))
+        self.tablesSelect.setItemText(4, _translate("MainWindow", "Schedule"))
+        self.label_15.setText(_translate("MainWindow", "Search"))
+        self.TabWidget_3.setTabText(self.TabWidget_3.indexOf(self.Lesson_3),
+                                    _translate("MainWindow", "Lesson management"))
+        self.SelectTable_Label_3.setText(_translate("MainWindow", "Select table"))
+        self.SearchInThisTableLabel_3.setText(_translate("MainWindow", "Search in this table"))
+        self.CancelChanges_button_3.setText(_translate("MainWindow", "Cancel changes"))
+        self.Apply_Button_3.setText(_translate("MainWindow", "Apply"))
         self.File.setTitle(_translate("MainWindow", "File"))
         self.actionOpen_database_file.setText(_translate("MainWindow", "Open database file"))
         self.actionCreate_new_database_file.setText(_translate("MainWindow", "Create new database file"))
-        self.actionOpen_console.setText(_translate("MainWindow", "Open Console"))
-        self.actionSave_file.setText(_translate("MainWindow", "Save File"))
+
 
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = MainWindow()
-    window.show()
+    import sys
+
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
     sys.exit(app.exec_())
