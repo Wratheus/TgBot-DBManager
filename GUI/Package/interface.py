@@ -1,16 +1,16 @@
-from PyQt5 import QtCore, QtWidgets
+from PyQt5 import QtCore
+from PyQt5 import QtWidgets
+from Package.facade import Facade as Facade
+
 
 class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
 
+    def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setWindowModality(QtCore.Qt.NonModal)
         MainWindow.resize(829, 527)
         MainWindow.setMinimumSize(829, 527)
         MainWindow.setMaximumSize(829, 527)
-
-# fix size
-
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -32,7 +32,7 @@ class Ui_MainWindow(object):
         self.Lesson_3 = QtWidgets.QWidget()
         self.Lesson_3.setObjectName("Lesson_3")
 
-#first tab section
+        # first tab section
 
         self.deleteButton = QtWidgets.QPushButton(self.Lesson_3)
         self.deleteButton.setGeometry(QtCore.QRect(610, 420, 191, 31))
@@ -195,8 +195,6 @@ class Ui_MainWindow(object):
         self.label_15.setGeometry(QtCore.QRect(10, 110, 57, 21))
         self.label_15.setObjectName("label_15")
 
-#Tab section #2
-
         self.TabWidget_3.addTab(self.Lesson_3, "")
         self.DB_viewer_3 = QtWidgets.QWidget()
         self.DB_viewer_3.setObjectName("DB_viewer_3")
@@ -232,8 +230,6 @@ class Ui_MainWindow(object):
 
         MainWindow.setCentralWidget(self.Mainlayout)
 
-# Menu FILE strip
-
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 829, 20))
         self.menubar.setObjectName("menubar")
@@ -247,10 +243,34 @@ class Ui_MainWindow(object):
         self.File.addAction(self.actionOpen_database_file)
         self.File.addAction(self.actionCreate_new_database_file)
         self.menubar.addAction(self.File.menuAction())
-
         self.retranslateUi(MainWindow)
         self.TabWidget_3.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+
+# Facade
+        self.ids =       ["id", "student_id", "subject_id", "teacher_id", "day_id"]
+        self.tables =    [["student_id", "student_name"],
+                          ["subject_id", "subject_name"],
+                          ["teacher_id", "teacher_name", "subject_id"],
+                          ["journal_id", "student_id", "group_id", "subject_id", "attendance", "grades"]]
+
+        self.addButton.clicked.connect(Facade.add(self))
+        self.deleteButton.clicked.connect(Facade.delete(self))
+        self.searchButton.clicked.connect(Facade.search(self))
+        self.updateButton.clicked.connect(Facade.update(self))
+        self.list.selectionModel().selectionChanged.connect(self.select_items)
+#
+
+    def alert(self, title="", message="", detais=""):
+        msgBox = QtWidgets.QMessageBox()
+        msgBox.setWindowTitle(title)
+        msgBox.setText(message)
+        msgBox.setDetailedText(detais)
+        msgBox.exec_()
+
+    def select_items(self, selected, deselected):
+        pass
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -291,4 +311,3 @@ class Ui_MainWindow(object):
         self.File.setTitle(_translate("MainWindow", "File"))
         self.actionOpen_database_file.setText(_translate("MainWindow", "Open database file"))
         self.actionCreate_new_database_file.setText(_translate("MainWindow", "Create new database file"))
-
