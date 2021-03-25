@@ -1,6 +1,9 @@
 from PyQt5 import QtCore, QtWidgets
+import db_functions
+
 
 class Ui_MainWindow(object):
+
     def setupUi(self, MainWindow):
 
         MainWindow.setObjectName("MainWindow")
@@ -251,6 +254,17 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         self.TabWidget_3.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.ids = ["id", "student_id", "subject_id", "teacher_id", "day_id"]
+        self.tables = [["student_id", "student_name"],
+                       ["subject_id", "subject_name"],
+                       ["teacher_id", "teacher_name", "subject_id"],
+                       ["journal_id", "student_id", "group_id", "subject_id", "attendance", "grades"]]
+
+        self.addButton.clicked.connect(db_functions.ConnectionDB.clicked_add(self))
+        self.deleteButton.clicked.connect(db_functions.ConnectionDB.clicked_delete(self))
+        self.searchButton.clicked.connect(db_functions.ConnectionDB.clicked_search(self))
+        self.updateButton.clicked.connect(db_functions.ConnectionDB.clicked_update(self))
+        self.list.selectionModel().selectionChanged.connect(self.select_items)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
