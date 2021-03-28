@@ -297,7 +297,7 @@ class Ui_MainWindow(object):
             for x, i in enumerate(cur.execute(query)):
                 self.list.setRowCount(x + 1)
                 for y, item in enumerate(i):
-                    self.list.setItem(x, y, QtWidgets.QTableWidgetItem(str(i[0])))
+                    self.list.setItem(x, y, QtWidgets.QTableWidgetItem(str(item)))
                 print(x, i)
         except sqlite3.Error as error:
             print(error)
