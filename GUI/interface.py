@@ -1,14 +1,9 @@
-<<<<<<< HEAD
-from PyQt5 import QtCore, QtWidgets
-import db_functions
-=======
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot
 import sqlite3
 from pprint import pprint
->>>>>>> dev
 
 
 class Ui_MainWindow(object):
