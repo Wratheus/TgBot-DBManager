@@ -1,6 +1,10 @@
 from PyQt5 import QtWidgets
 import interface
 import sys
+<<<<<<< HEAD
+=======
+
+>>>>>>> dev
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
