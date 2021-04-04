@@ -7,7 +7,6 @@ from pprint import pprint
 
 
 class Ui_MainWindow(object):
-
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setWindowModality(QtCore.Qt.NonModal)
@@ -105,25 +104,53 @@ class Ui_MainWindow(object):
         self.label_11 = QtWidgets.QLabel(self.groupBox_4)
         self.label_11.setGeometry(QtCore.QRect(10, 90, 57, 15))
         self.label_11.setObjectName("label_11")
-        self.journal_day = QtWidgets.QGroupBox(self.Lesson_3)
-        self.journal_day.setGeometry(QtCore.QRect(610, 140, 191, 80))
-        self.journal_day.setObjectName("journal_day")
-        self.journal_group = QtWidgets.QLineEdit(self.journal_day)
-        self.journal_group.setGeometry(QtCore.QRect(70, 45, 113, 23))
+        self.journal_box = QtWidgets.QGroupBox(self.Lesson_3)
+        self.journal_box.setGeometry(QtCore.QRect(610, 140, 191, 200))
+        self.journal_box.setObjectName("journal_box")
+        self.journal_id = QtWidgets.QLineEdit(self.journal_box)
+        self.journal_id.setGeometry(QtCore.QRect(70, 15, 113, 23))
+        self.journal_id.setObjectName("journal_id")
+        self.label_journal_id = QtWidgets.QLabel(self.journal_box)
+        self.label_journal_id.setGeometry(QtCore.QRect(10, 18, 57, 15))
+        self.label_journal_id.setObjectName("label_journal_id")
+        self.journal_student = QtWidgets.QLineEdit(self.journal_box)
+        self.journal_student.setGeometry(QtCore.QRect(70, 44, 113, 23))
+        self.journal_student.setObjectName("journal_student")
+        self.label_student_id = QtWidgets.QLabel(self.journal_box)
+        self.label_student_id.setGeometry(QtCore.QRect(10, 47, 57, 15))
+        self.label_student_id.setObjectName("label_student_id")
+        self.journal_group = QtWidgets.QLineEdit(self.journal_box)
+        self.journal_group.setGeometry(QtCore.QRect(70, 75, 113, 23))
         self.journal_group.setObjectName("journal_group")
-        self.label_10 = QtWidgets.QLabel(self.journal_day)
-        self.label_10.setGeometry(QtCore.QRect(10, 45, 57, 15))
-        self.label_10.setObjectName("label_10")
-        self.journal_subject = QtWidgets.QLineEdit(self.journal_day)
-        self.journal_subject.setGeometry(QtCore.QRect(70, 15, 113, 23))
+        self.label_group_id = QtWidgets.QLabel(self.journal_box)
+        self.label_group_id.setGeometry(QtCore.QRect(10, 77, 57, 15))
+        self.label_group_id.setObjectName("label_group_id")
+
+        self.journal_subject = QtWidgets.QLineEdit(self.journal_box)
+        self.journal_subject.setGeometry(QtCore.QRect(70, 105, 113, 23))
         self.journal_subject.setObjectName("journal_subject")
-        self.label_12 = QtWidgets.QLabel(self.journal_day)
-        self.label_12.setGeometry(QtCore.QRect(10, 18, 57, 15))
-        self.label_12.setObjectName("label_12")
-        self.label_13 = QtWidgets.QLabel(self.journal_day)
+        self.label_subject_id = QtWidgets.QLabel(self.journal_box)
+        self.label_subject_id.setGeometry(QtCore.QRect(10, 107, 57, 15))
+        self.label_subject_id.setObjectName("label_subject_id")
+
+        self.journal_attendance = QtWidgets.QLineEdit(self.journal_box)
+        self.journal_attendance.setGeometry(QtCore.QRect(70, 135, 113, 23))
+        self.journal_attendance.setObjectName("journal_attendance")
+        self.label_attendance_id = QtWidgets.QLabel(self.journal_box)
+        self.label_attendance_id.setGeometry(QtCore.QRect(10, 137, 57, 15))
+        self.label_attendance_id.setObjectName("label_attendance_id")
+
+        self.journal_grades = QtWidgets.QLineEdit(self.journal_box)
+        self.journal_grades.setGeometry(QtCore.QRect(70, 165, 113, 23))
+        self.journal_grades.setObjectName("journal_attendance")
+        self.label_grades_id = QtWidgets.QLabel(self.journal_box)
+        self.label_grades_id.setGeometry(QtCore.QRect(10, 167, 57, 15))
+        self.label_grades_id.setObjectName("label_grades_id")
+
+        self.label_13 = QtWidgets.QLabel(self.journal_box)
         self.label_13.setGeometry(QtCore.QRect(10, 122, 57, 15))
         self.label_13.setObjectName("label_13")
-        self.label_14 = QtWidgets.QLabel(self.journal_day)
+        self.label_14 = QtWidgets.QLabel(self.journal_box)
         self.label_14.setGeometry(QtCore.QRect(10, 152, 57, 15))
         self.label_14.setObjectName("label_14")
         self.list = QtWidgets.QTableWidget(self.Lesson_3)
@@ -191,19 +218,8 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         self.TabWidget_3.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-        self.ids = ["id", "student_id", "subject_id", "teacher_id", "day_id"]
-        self.tables = [["student_id", "student_name"],
-                       ["subject_id", "subject_name"],
-                       ["teacher_id", "teacher_name", "subject_id"],
-                       ["journal_id", "student_id", "group_id", "subject_id", "attendance", "grades"]]
 
-        self.addButton.clicked.connect(db_functions.ConnectionDB.clicked_add(self))
-        self.deleteButton.clicked.connect(db_functions.ConnectionDB.clicked_delete(self))
-        self.searchButton.clicked.connect(db_functions.ConnectionDB.clicked_search(self))
-        self.updateButton.clicked.connect(db_functions.ConnectionDB.clicked_update(self))
-        self.list.selectionModel().selectionChanged.connect(self.select_items)
-
-        self.ids = ["group_id", "student_id", "subject_id", "teacher_id", "day_id"]
+        self.ids = ["group_id", "student_id", "subject_id", "teacher_id", "journal_id"]
         self.tables = [["group_id", "group_name"],
                        ["student_id", "student_name"],
                        ["subject_id", "subject_name"],
@@ -224,9 +240,10 @@ class Ui_MainWindow(object):
         elif self.tablesSelect.currentText().lower() == "teachers":
             return (self.teacher_id.text(), self.teacher_name.text(), self.teacher_subject.text())
         elif self.tablesSelect.currentText().lower() == "journal":
-            return (self.journal_group.text(), self.journal_subject.text())
+            return (self.journal_id.text(), self.journal_student.text(), self.journal_group.text(),
+                    self.journal_subject.text(), self.journal_attendance.text(), self.journal_grades.text())
         elif self.tablesSelect.currentText().lower() == "subjects":
-            return (self.subject_id.text(), self.subject_subject.text())
+            return (self.label_subject_id.text(), self.subject_subject.text())
 
     def clicked_add(self):
         vals = self.getValues()
@@ -319,7 +336,6 @@ class Ui_MainWindow(object):
 
     def clear(self):
         self.groups_id.setText("")
-        self.groups_id.setText("")
         self.groups_name.setText("")
         self.students_.setText("")
         self.students_id.setText("")
@@ -330,7 +346,11 @@ class Ui_MainWindow(object):
         self.teacher_name.setText("")
         self.teacher_subject.setText("")
         self.journal_group.setText("")
+        self.journal_id.setText("")
+        self.journal_grades.setText("")
+        self.journal_attendance.setText("")
         self.journal_subject.setText("")
+        self.journal_student.setText("")
 
 
     def alert(self, title="", message="", detais=""):
@@ -358,15 +378,20 @@ class Ui_MainWindow(object):
         self.label_7.setText(_translate("MainWindow", "ID"))
         self.label_8.setText(_translate("MainWindow", "Name"))
         self.label_11.setText(_translate("MainWindow", "Subject"))
-        self.journal_day.setTitle(_translate("MainWindow", "journal"))
-        self.label_10.setText(_translate("MainWindow", "Group"))
-        self.label_12.setText(_translate("MainWindow", "Subject"))
+        self.journal_box.setTitle(_translate("MainWindow", "Journal"))
+        self.label_journal_id.setText(_translate("MainWindow", "ID"))
+        self.label_student_id.setText(_translate("MainWindow", "Student ID"))
+        self.label_group_id.setText(_translate("MainWindow", "Group ID"))
+        self.label_subject_id.setText(_translate("MainWindow", "Subject ID"))
+        self.label_attendance_id.setText(_translate("MainWindow", "Attendance"))
+        self.label_grades_id.setText(_translate("MainWindow", "Grades"))
+
         self.searchButton.setText(_translate("MainWindow", "search"))
         self.tablesSelect.setItemText(0, _translate("MainWindow", "Groups"))
         self.tablesSelect.setItemText(1, _translate("MainWindow", "Students"))
         self.tablesSelect.setItemText(2, _translate("MainWindow", "Subjects"))
         self.tablesSelect.setItemText(3, _translate("MainWindow", "Teachers"))
-        self.tablesSelect.setItemText(4, _translate("MainWindow", "journal"))
+        self.tablesSelect.setItemText(4, _translate("MainWindow", "Journal"))
         self.label_15.setText(_translate("MainWindow", "Search"))
         self.TabWidget_3.setTabText(self.TabWidget_3.indexOf(self.Lesson_3),
                                     _translate("MainWindow", "Lesson management"))
