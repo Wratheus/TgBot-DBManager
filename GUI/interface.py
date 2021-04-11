@@ -272,7 +272,9 @@ class Ui_MainWindow(object):
         try:
             con = sqlite3.connect("test.db")
             cur = con.cursor()
-            cur.execute(query, list(self.getValues()[0]))
+            _a = []
+            _a.append(self.getValues()[0])
+            cur.execute(query, _a)
             con.commit()
             self.clear()
             self.alert(f"{self.tablesSelect.currentText()} Changes",
