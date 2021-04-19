@@ -24,101 +24,180 @@ class Ui_MainWindow(object):
         self.Mainlayout.setAutoFillBackground(False)
         self.Mainlayout.setStyleSheet("")
         self.Mainlayout.setObjectName("Mainlayout")
+
         self.TabWidget_3 = QtWidgets.QTabWidget(self.Mainlayout)
         self.TabWidget_3.setGeometry(QtCore.QRect(0, 0, 821, 501))
         self.TabWidget_3.setObjectName("TabWidget_3")
+
         self.Lesson_3 = QtWidgets.QWidget()
         self.Lesson_3.setObjectName("Lesson_3")
+
         self.deleteButton = QtWidgets.QPushButton(self.Lesson_3)
         self.deleteButton.setGeometry(QtCore.QRect(610, 420, 191, 31))
         self.deleteButton.setObjectName("deleteButton")
+
         self.updateButton = QtWidgets.QPushButton(self.Lesson_3)
         self.updateButton.setGeometry(QtCore.QRect(711, 380, 90, 31))
         self.updateButton.setObjectName("updateButton")
+
         self.addButton = QtWidgets.QPushButton(self.Lesson_3)
         self.addButton.setGeometry(QtCore.QRect(610, 380, 91, 31))
         self.addButton.setObjectName("addButton")
+
         self.groupBox = QtWidgets.QGroupBox(self.Lesson_3)
         self.groupBox.setGeometry(QtCore.QRect(10, 10, 191, 91))
         self.groupBox.setObjectName("groupBox")
+
+        # group_id and validation
         self.groups_id = QtWidgets.QLineEdit(self.groupBox)
         self.groups_id.setGeometry(QtCore.QRect(70, 28, 113, 23))
         self.groups_id.setObjectName("groups_id")
-        self.groups_name = QtWidgets.QLineEdit(self.groupBox)
-        self.groups_name.setGeometry(QtCore.QRect(70, 58, 113, 23))
-        self.groups_name.setObjectName("groups_name")
         self.label = QtWidgets.QLabel(self.groupBox)
         self.label.setGeometry(QtCore.QRect(10, 30, 57, 21))
         self.label.setObjectName("label")
+
+        self.groups_id_validator_id_RE = QtCore.QRegExp('^\d{3}$')
+        self.groups_id_validator = QtGui.QRegExpValidator(self.groups_id_validator_id_RE)
+        self.groups_id.setValidator(self.groups_id_validator)
+
+        # group and validation
+        self.groups_name = QtWidgets.QLineEdit(self.groupBox)
+        self.groups_name.setGeometry(QtCore.QRect(70, 58, 113, 23))
+        self.groups_name.setObjectName("groups_name")
         self.label_2 = QtWidgets.QLabel(self.groupBox)
         self.label_2.setGeometry(QtCore.QRect(10, 60, 57, 15))
         self.label_2.setObjectName("label_2")
+
+        self.validator_groupname_RE = QtCore.QRegExp('^\d-[А-Яа-я]{3}-\d{3}$')
+        self.validator_groupname = QtGui.QRegExpValidator(self.validator_groupname_RE)
+        self.groups_name.setValidator(self.validator_groupname)
+
+        # student groupbox
         self.groupBox_2 = QtWidgets.QGroupBox(self.Lesson_3)
         self.groupBox_2.setGeometry(QtCore.QRect(210, 10, 191, 91))
         self.groupBox_2.setObjectName("groupBox_2")
+
+        # student_id and validation
         self.students_id = QtWidgets.QLineEdit(self.groupBox_2)
         self.students_id.setGeometry(QtCore.QRect(70, 28, 113, 23))
         self.students_id.setObjectName("students_id")
-        self.students_ = QtWidgets.QLineEdit(self.groupBox_2)
-        self.students_.setGeometry(QtCore.QRect(70, 58, 113, 23))
-        self.students_.setObjectName("students_")
         self.label_3 = QtWidgets.QLabel(self.groupBox_2)
         self.label_3.setGeometry(QtCore.QRect(10, 30, 57, 21))
         self.label_3.setObjectName("label_3")
+
+        self.students_id_validator_RE = QtCore.QRegExp('^\d{3}$')
+        self.students_id_validator = QtGui.QRegExpValidator(self.students_id_validator_RE)
+        self.students_id.setValidator(self.students_id_validator)
+
+        # student_name and validation
+        self.students_name = QtWidgets.QLineEdit(self.groupBox_2)
+        self.students_name.setGeometry(QtCore.QRect(70, 58, 113, 23))
+        self.students_name.setObjectName("students_name")
         self.label_4 = QtWidgets.QLabel(self.groupBox_2)
         self.label_4.setGeometry(QtCore.QRect(10, 60, 57, 15))
         self.label_4.setObjectName("label_4")
+
+        self.students_name_validation_RE = QtCore.QRegExp('^[А-Яа-я\s]{40}')
+        self.students_name_validation = QtGui.QRegExpValidator(self.students_name_validation_RE)
+        self.students_name.setValidator(self.students_name_validation)
+
+        # subject Box
         self.groupBox_3 = QtWidgets.QGroupBox(self.Lesson_3)
         self.groupBox_3.setGeometry(QtCore.QRect(410, 10, 191, 91))
         self.groupBox_3.setObjectName("groupBox_3")
+
+        # subject_id and validation
         self.subject_id = QtWidgets.QLineEdit(self.groupBox_3)
         self.subject_id.setGeometry(QtCore.QRect(70, 28, 113, 23))
         self.subject_id.setObjectName("subject_id")
-        self.subject_subject = QtWidgets.QLineEdit(self.groupBox_3)
-        self.subject_subject.setGeometry(QtCore.QRect(70, 58, 113, 23))
-        self.subject_subject.setObjectName("subject_subject")
         self.label_5 = QtWidgets.QLabel(self.groupBox_3)
         self.label_5.setGeometry(QtCore.QRect(10, 30, 57, 21))
         self.label_5.setObjectName("label_5")
+
+        self.subject_id_validator_RE = QtCore.QRegExp('^\d{3}$')
+        self.subject_id_validator = QtGui.QRegExpValidator(self.subject_id_validator_RE)
+        self.subject_id.setValidator(self.subject_id_validator)
+
+        # subject_name and validation
+        self.subject_subject_name = QtWidgets.QLineEdit(self.groupBox_3)
+        self.subject_subject_name.setGeometry(QtCore.QRect(70, 58, 113, 23))
+        self.subject_subject_name.setObjectName("subject_subject_name")
         self.label_6 = QtWidgets.QLabel(self.groupBox_3)
         self.label_6.setGeometry(QtCore.QRect(10, 60, 57, 15))
         self.label_6.setObjectName("label_6")
+
+        self.subject_subject_name_validation_RE = QtCore.QRegExp('^[А-Яа-я\s]{20}')
+        self.subject_subject_name_validation = QtGui.QRegExpValidator(self.subject_subject_name_validation_RE)
+        self.subject_subject_name.setValidator(self.subject_subject_name_validation)
+
+        # teacher box
         self.groupBox_4 = QtWidgets.QGroupBox(self.Lesson_3)
         self.groupBox_4.setGeometry(QtCore.QRect(610, 10, 191, 121))
         self.groupBox_4.setObjectName("groupBox_4")
+
+        # teacher_id and validation
         self.teacher_id = QtWidgets.QLineEdit(self.groupBox_4)
         self.teacher_id.setGeometry(QtCore.QRect(70, 28, 113, 23))
         self.teacher_id.setObjectName("teacher_id")
-        self.teacher_name = QtWidgets.QLineEdit(self.groupBox_4)
-        self.teacher_name.setGeometry(QtCore.QRect(70, 58, 113, 23))
-        self.teacher_name.setObjectName("teacher_name")
         self.label_7 = QtWidgets.QLabel(self.groupBox_4)
         self.label_7.setGeometry(QtCore.QRect(10, 30, 57, 21))
         self.label_7.setObjectName("label_7")
+
+        self.teacher_id_validation_RE = QtCore.QRegExp('^\d{3}$')
+        self.teacher_id_validation = QtGui.QRegExpValidator(self.teacher_id_validation_RE)
+        self.teacher_id.setValidator(self.teacher_id_validation)
+
+        # teacher_name and validation
+        self.teacher_name = QtWidgets.QLineEdit(self.groupBox_4)
+        self.teacher_name.setGeometry(QtCore.QRect(70, 58, 113, 23))
+        self.teacher_name.setObjectName("teacher_name")
         self.label_8 = QtWidgets.QLabel(self.groupBox_4)
         self.label_8.setGeometry(QtCore.QRect(10, 60, 57, 15))
         self.label_8.setObjectName("label_8")
+
+        self.teacher_name_validator_RE = QtCore.QRegExp('^[А-Яа-я\s]{40}')
+        self.teacher_name_validator = QtGui.QRegExpValidator(self.teacher_name_validator_RE)
+        self.teacher_name.setValidator(self.teacher_name_validator)
+
+        # subject and validation
         self.teacher_subject = QtWidgets.QLineEdit(self.groupBox_4)
         self.teacher_subject.setGeometry(QtCore.QRect(70, 88, 113, 23))
         self.teacher_subject.setObjectName("teacher_subject")
         self.label_11 = QtWidgets.QLabel(self.groupBox_4)
         self.label_11.setGeometry(QtCore.QRect(10, 90, 57, 15))
         self.label_11.setObjectName("label_11")
+
+        # validator from subject_subject_name
+        self.teacher_subject.setValidator(self.subject_subject_name_validation)
+
+        # journal box
         self.journal_box = QtWidgets.QGroupBox(self.Lesson_3)
         self.journal_box.setGeometry(QtCore.QRect(610, 140, 191, 200))
         self.journal_box.setObjectName("journal_box")
+
+        # journal_id and validation
         self.journal_id = QtWidgets.QLineEdit(self.journal_box)
         self.journal_id.setGeometry(QtCore.QRect(70, 15, 113, 23))
         self.journal_id.setObjectName("journal_id")
         self.label_journal_id = QtWidgets.QLabel(self.journal_box)
         self.label_journal_id.setGeometry(QtCore.QRect(10, 18, 57, 15))
         self.label_journal_id.setObjectName("label_journal_id")
+
+        self.journal_id_validation_RE = QtCore.QRegExp('^\d{3}$')
+        self.journal_id_validation = QtGui.QRegExpValidator(self.journal_id_validation_RE)
+        self.journal_id.setValidator(self.journal_id_validation)
+
+        # journal_student_id | [validation from student_id]
         self.journal_student = QtWidgets.QLineEdit(self.journal_box)
         self.journal_student.setGeometry(QtCore.QRect(70, 44, 113, 23))
         self.journal_student.setObjectName("journal_student")
         self.label_student_id = QtWidgets.QLabel(self.journal_box)
         self.label_student_id.setGeometry(QtCore.QRect(10, 47, 57, 15))
         self.label_student_id.setObjectName("label_student_id")
+
+        self.journal_student.setValidator(self.students_id_validator)
+
+        # journal_group_id | [validation from group_id]
         self.journal_group = QtWidgets.QLineEdit(self.journal_box)
         self.journal_group.setGeometry(QtCore.QRect(70, 75, 113, 23))
         self.journal_group.setObjectName("journal_group")
@@ -126,6 +205,9 @@ class Ui_MainWindow(object):
         self.label_group_id.setGeometry(QtCore.QRect(10, 77, 57, 15))
         self.label_group_id.setObjectName("label_group_id")
 
+        self.journal_group.setValidator(self.groups_id_validator)
+
+        # journal_subject_id | [validation from subject_id]
         self.journal_subject = QtWidgets.QLineEdit(self.journal_box)
         self.journal_subject.setGeometry(QtCore.QRect(70, 105, 113, 23))
         self.journal_subject.setObjectName("journal_subject")
@@ -133,6 +215,9 @@ class Ui_MainWindow(object):
         self.label_subject_id.setGeometry(QtCore.QRect(10, 107, 57, 15))
         self.label_subject_id.setObjectName("label_subject_id")
 
+        self.journal_subject.setValidator(self.subject_id_validator)
+
+        # journal attendance and validation
         self.journal_attendance = QtWidgets.QLineEdit(self.journal_box)
         self.journal_attendance.setGeometry(QtCore.QRect(70, 135, 113, 23))
         self.journal_attendance.setObjectName("journal_attendance")
@@ -140,6 +225,11 @@ class Ui_MainWindow(object):
         self.label_attendance_id.setGeometry(QtCore.QRect(10, 137, 57, 15))
         self.label_attendance_id.setObjectName("label_attendance_id")
 
+        self.journal_attendance_validation_RE = QtCore.QRegExp('^([-+], ){500}')
+        self.journal_attendance_validation = QtGui.QRegExpValidator(self.journal_attendance_validation_RE)
+        self.journal_attendance.setValidator(self.journal_attendance_validation)
+
+        # journal grades and validation
         self.journal_grades = QtWidgets.QLineEdit(self.journal_box)
         self.journal_grades.setGeometry(QtCore.QRect(70, 165, 113, 23))
         self.journal_grades.setObjectName("journal_attendance")
@@ -147,12 +237,11 @@ class Ui_MainWindow(object):
         self.label_grades_id.setGeometry(QtCore.QRect(10, 167, 57, 15))
         self.label_grades_id.setObjectName("label_grades_id")
 
-        self.label_13 = QtWidgets.QLabel(self.journal_box)
-        self.label_13.setGeometry(QtCore.QRect(10, 122, 57, 15))
-        self.label_13.setObjectName("label_13")
-        self.label_14 = QtWidgets.QLabel(self.journal_box)
-        self.label_14.setGeometry(QtCore.QRect(10, 152, 57, 15))
-        self.label_14.setObjectName("label_14")
+        self.journal_grades_validation_RE = QtCore.QRegExp('^([1-5], ){500}')
+        self.journal_grades_validation = QtGui.QRegExpValidator(self.journal_grades_validation_RE)
+        self.journal_grades.setValidator(self.journal_grades_validation)
+
+        # search and listbox
         self.list = QtWidgets.QTableWidget(self.Lesson_3)
         self.list.setGeometry(QtCore.QRect(10, 140, 591, 311))
         self.list.setObjectName("list")
@@ -176,30 +265,12 @@ class Ui_MainWindow(object):
         self.TabWidget_3.addTab(self.Lesson_3, "")
         self.DB_viewer_3 = QtWidgets.QWidget()
         self.DB_viewer_3.setObjectName("DB_viewer_3")
-        self.DBManagement_TableWidget_3 = QtWidgets.QTableWidget(self.DB_viewer_3)
-        self.DBManagement_TableWidget_3.setGeometry(QtCore.QRect(10, 61, 761, 401))
-        self.DBManagement_TableWidget_3.setRowCount(20)
-        self.DBManagement_TableWidget_3.setColumnCount(15)
-        self.DBManagement_TableWidget_3.setObjectName("DBManagement_TableWidget_3")
-        self.SelectTable_ComboBox_3 = QtWidgets.QComboBox(self.DB_viewer_3)
-        self.SelectTable_ComboBox_3.setGeometry(QtCore.QRect(10, 30, 161, 20))
-        self.SelectTable_ComboBox_3.setObjectName("SelectTable_ComboBox_3")
-        self.SelectTable_Label_3 = QtWidgets.QLabel(self.DB_viewer_3)
-        self.SelectTable_Label_3.setGeometry(QtCore.QRect(10, 10, 61, 21))
-        self.SelectTable_Label_3.setObjectName("SelectTable_Label_3")
-        self.SearchInThisTable_Line_3 = QtWidgets.QLineEdit(self.DB_viewer_3)
-        self.SearchInThisTable_Line_3.setGeometry(QtCore.QRect(180, 30, 113, 20))
-        self.SearchInThisTable_Line_3.setObjectName("SearchInThisTable_Line_3")
-        self.SearchInThisTableLabel_3 = QtWidgets.QLabel(self.DB_viewer_3)
-        self.SearchInThisTableLabel_3.setGeometry(QtCore.QRect(180, 10, 101, 21))
-        self.SearchInThisTableLabel_3.setObjectName("SearchInThisTableLabel_3")
         self.CancelChanges_button_3 = QtWidgets.QPushButton(self.DB_viewer_3)
         self.CancelChanges_button_3.setGeometry(QtCore.QRect(540, 482, 111, 31))
         self.CancelChanges_button_3.setObjectName("CancelChanges_button_3")
         self.Apply_Button_3 = QtWidgets.QPushButton(self.DB_viewer_3)
         self.Apply_Button_3.setGeometry(QtCore.QRect(660, 482, 111, 31))
         self.Apply_Button_3.setObjectName("Apply_Button_3")
-        self.TabWidget_3.addTab(self.DB_viewer_3, "DB management")
         MainWindow.setCentralWidget(self.Mainlayout)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 829, 20))
@@ -207,13 +278,6 @@ class Ui_MainWindow(object):
         self.File = QtWidgets.QMenu(self.menubar)
         self.File.setObjectName("File")
         MainWindow.setMenuBar(self.menubar)
-        self.actionOpen_database_file = QtWidgets.QAction(MainWindow)
-        self.actionOpen_database_file.setObjectName("actionOpen_database_file")
-        self.actionCreate_new_database_file = QtWidgets.QAction(MainWindow)
-        self.actionCreate_new_database_file.setObjectName("actionCreate_new_database_file")
-        self.File.addAction(self.actionOpen_database_file)
-        self.File.addAction(self.actionCreate_new_database_file)
-        self.menubar.addAction(self.File.menuAction())
 
         self.retranslateUi(MainWindow)
         self.TabWidget_3.setCurrentIndex(0)
@@ -236,14 +300,14 @@ class Ui_MainWindow(object):
         if self.tablesSelect.currentText().lower() == "groups":
             return (self.groups_id.text(), self.groups_name.text())
         elif self.tablesSelect.currentText().lower() == "students":
-            return (self.students_id.text(), self.students_.text())
+            return (self.students_id.text(), self.students_name.text())
         elif self.tablesSelect.currentText().lower() == "teachers":
             return (self.teacher_id.text(), self.teacher_name.text(), self.teacher_subject.text())
         elif self.tablesSelect.currentText().lower() == "journal":
             return (self.journal_id.text(), self.journal_student.text(), self.journal_group.text(),
                     self.journal_subject.text(), self.journal_attendance.text(), self.journal_grades.text())
         elif self.tablesSelect.currentText().lower() == "subjects":
-            return (self.label_subject_id.text(), self.subject_subject.text())
+            return (self.label_subject_id.text(), self.subject_subject_name.text())
 
     def clicked_add(self):
         vals = self.getValues()
@@ -339,11 +403,11 @@ class Ui_MainWindow(object):
     def clear(self):
         self.groups_id.setText("")
         self.groups_name.setText("")
-        self.students_.setText("")
+        self.students_name.setText("")
         self.students_id.setText("")
         self.subject_id.setText("")
         self.subject_id.setText("")
-        self.subject_subject.setText("")
+        self.subject_subject_name.setText("")
         self.teacher_id.setText("")
         self.teacher_name.setText("")
         self.teacher_subject.setText("")
@@ -397,10 +461,7 @@ class Ui_MainWindow(object):
         self.label_15.setText(_translate("MainWindow", "Search"))
         self.TabWidget_3.setTabText(self.TabWidget_3.indexOf(self.Lesson_3),
                                     _translate("MainWindow", "Lesson management"))
-        self.SelectTable_Label_3.setText(_translate("MainWindow", "Select table"))
-        self.SearchInThisTableLabel_3.setText(_translate("MainWindow", "Search in this table"))
+
         self.CancelChanges_button_3.setText(_translate("MainWindow", "Cancel changes"))
         self.Apply_Button_3.setText(_translate("MainWindow", "Apply"))
         self.File.setTitle(_translate("MainWindow", "File"))
-        self.actionOpen_database_file.setText(_translate("MainWindow", "Open database file"))
-        self.actionCreate_new_database_file.setText(_translate("MainWindow", "Create new database file"))
