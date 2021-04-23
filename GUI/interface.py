@@ -294,6 +294,7 @@ class Ui_MainWindow(object):
         self.deleteButton.clicked.connect(self.clicked_delete)
         self.searchButton.clicked.connect(self.clicked_search)
         self.updateButton.clicked.connect(self.clicked_update)
+        self.tablesSelect.currentTextChanged.connect(self.disable_controls)
         self.list.selectionModel().selectionChanged.connect(self.select_items)
 
     def getValues(self):
@@ -307,14 +308,95 @@ class Ui_MainWindow(object):
             return (self.journal_id.text(), self.journal_student.text(), self.journal_group.text(),
                     self.journal_subject.text(), self.journal_attendance.text(), self.journal_grades.text())
         elif self.tablesSelect.currentText().lower() == "subjects":
-            return (self.label_subject_id.text(), self.subject_subject_name.text())
+            return (self.subject_id.text(), self.subject_subject_name.text())
 
+    def disable_controls(self,value):
+        if self.tablesSelect.currentText().lower() == "groups":
+            self.groups_id.setEnabled(True)
+            self.groups_name.setEnabled(True)
+            self.students_id.setEnabled(False)
+            self.students_name.setEnabled(False)
+            self.teacher_id.setEnabled(False)
+            self.teacher_name.setEnabled(False)
+            self.teacher_subject.setEnabled(False)
+            self.journal_id.setEnabled(False)
+            self.journal_student.setEnabled(False)
+            self.journal_group.setEnabled(False)
+            self.journal_subject.setEnabled(False)
+            self.journal_attendance.setEnabled(False)
+            self.journal_grades.setEnabled(False)
+            self.subject_id.setEnabled(False)
+            self.subject_subject_name.setEnabled(False)
+        elif self.tablesSelect.currentText().lower() == "students":
+            self.groups_id.setEnabled(False)
+            self.groups_name.setEnabled(False)
+            self.students_id.setEnabled(True)
+            self.students_name.setEnabled(True)
+            self.teacher_id.setEnabled(False)
+            self.teacher_name.setEnabled(False)
+            self.teacher_subject.setEnabled(False)
+            self.journal_id.setEnabled(False)
+            self.journal_student.setEnabled(False)
+            self.journal_group.setEnabled(False)
+            self.journal_subject.setEnabled(False)
+            self.journal_attendance.setEnabled(False)
+            self.journal_grades.setEnabled(False)
+            self.subject_id.setEnabled(False)
+            self.subject_subject_name.setEnabled(False)
+        elif self.tablesSelect.currentText().lower() == "teachers":
+            self.groups_id.setEnabled(False)
+            self.groups_name.setEnabled(False)
+            self.students_id.setEnabled(False)
+            self.students_name.setEnabled(False)
+            self.teacher_id.setEnabled(True)
+            self.teacher_name.setEnabled(True)
+            self.teacher_subject.setEnabled(True)
+            self.journal_id.setEnabled(False)
+            self.journal_student.setEnabled(False)
+            self.journal_group.setEnabled(False)
+            self.journal_subject.setEnabled(False)
+            self.journal_attendance.setEnabled(False)
+            self.journal_grades.setEnabled(False)
+            self.subject_id.setEnabled(False)
+            self.subject_subject_name.setEnabled(False)
+        elif self.tablesSelect.currentText().lower() == "journal":
+            self.groups_id.setEnabled(False)
+            self.groups_name.setEnabled(False)
+            self.students_id.setEnabled(False)
+            self.students_name.setEnabled(False)
+            self.teacher_id.setEnabled(False)
+            self.teacher_name.setEnabled(False)
+            self.teacher_subject.setEnabled(False)
+            self.journal_id.setEnabled(True)
+            self.journal_student.setEnabled(True)
+            self.journal_group.setEnabled(True)
+            self.journal_subject.setEnabled(True)
+            self.journal_attendance.setEnabled(True)
+            self.journal_grades.setEnabled(True)
+            self.subject_id.setEnabled(False)
+            self.subject_subject_name.setEnabled(False)
+        elif self.tablesSelect.currentText().lower() == "subjects":
+            self.groups_id.setEnabled(False)
+            self.groups_name.setEnabled(False)
+            self.students_id.setEnabled(False)
+            self.students_name.setEnabled(False)
+            self.teacher_id.setEnabled(False)
+            self.teacher_name.setEnabled(False)
+            self.teacher_subject.setEnabled(False)
+            self.journal_id.setEnabled(False)
+            self.journal_student.setEnabled(False)
+            self.journal_group.setEnabled(False)
+            self.journal_subject.setEnabled(False)
+            self.journal_attendance.setEnabled(False)
+            self.journal_grades.setEnabled(False)
+            self.subject_id.setEnabled(True)
+            self.subject_subject_name.setEnabled(True)
+            
     def clicked_add(self):
         vals = self.getValues()
         query = "INSERT INTO %s values(%s)" % (
         self.tablesSelect.currentText(), ",".join(['?' for _ in range(len(vals))]).strip(","))
         try:
-            pass
             con = sqlite3.connect("test.db")
             cur = con.cursor()
             cur.execute(query, vals)
@@ -398,7 +480,32 @@ class Ui_MainWindow(object):
             print(error)
 
     def select_items(self, selected, deselected):
-        pass
+        try:
+            index = self.list.selectionModel().currentIndex().row()
+            if self.tablesSelect.currentText().lower() == "groups":
+                self.groups_id.setText(str(self.list.item(index,0).text()))
+                self.groups_name.setText(str(self.list.item(index,1).text()))
+            elif self.tablesSelect.currentText().lower() == "students":
+                self.students_id.setText(str(self.list.item(index,0).text()))
+                self.students_name.setText(str(self.list.item(index,1).text()))
+            elif self.tablesSelect.currentText().lower() == "teachers":
+                self.teacher_id.setText(str(self.list.item(index,0).text()))
+                self.teacher_name.setText(str(self.list.item(index,1).text()))
+                self.teacher_subject.setText(str(self.list.item(index,2).text()))
+            elif self.tablesSelect.currentText().lower() == "journal":
+                self.journal_id.setText(str(self.list.item(index,0).text()))
+                self.journal_student.setText(str(self.list.item(index,1).text()))
+                self.journal_group.setText(str(self.list.item(index,2).text()))
+                self.journal_subject.setText(str(self.list.item(index,3).text()))
+                self.journal_attendance.setText(str(self.list.item(index,4).text()))
+                self.journal_grades.setText(str(self.list.item(index,5).text()))
+            elif self.tablesSelect.currentText().lower() == "subjects":
+                self.subject_id.setText(str(self.list.item(index,0).text()))
+                self.subject_subject_name.setText(str(self.list.item(index,1).text()))
+                
+        except Exception as err:
+            print(err)
+       
 
     def clear(self):
         self.groups_id.setText("")
