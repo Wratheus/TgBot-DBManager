@@ -5,4 +5,11 @@ Trello - https://trello.com/b/aCm3P1Ku/wratheus-team-board
 *************************************************************************************************************************************************************************
 <p align="center">
   <img src="https://i.imgur.com/WKCwWmO.png" alt="DB edit tool" width="400" />
+  </p>
+  <p align="center">
+  <img src="https://i.imgur.com/WCJ8TFK.jpg" alt="bot" width="400"/>
+    </p>
+  <p align="center">
+    <img src="https://i.imgur.com/thbcKXd.jpg" alt="bot" width="400"/>
+    </p>
 </p>
